@@ -14,6 +14,7 @@
 
   const algorithms = [
     { value: 'SHA-256', name: 'SHA-256', bits: 256 },
+    { value: 'SHA-512', name: 'SHA-512', bits: 512 },
     { value: 'SHA-1', name: 'SHA-1', bits: 160 },
     { value: 'MD5', name: 'MD5', bits: 128 }
   ]
@@ -115,7 +116,7 @@
         <line x1="10" y1="3" x2="8" y2="21"></line>
         <line x1="16" y1="3" x2="14" y2="21"></line>
       </svg>
-      <span>Hash Generator</span>
+      <h1 class="tool-title-text">Hash Generator</h1>
     </div>
     
     <div class="tool-actions">
@@ -249,6 +250,13 @@
     gap: var(--space-2);
     font-weight: var(--font-semibold);
     color: var(--text-primary);
+  }
+
+  .tool-title-text {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    margin: 0;
+    color: inherit;
   }
 
   .tool-icon {

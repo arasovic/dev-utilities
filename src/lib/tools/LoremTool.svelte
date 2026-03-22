@@ -118,10 +118,6 @@
       generate()
     }
   }
-
-  onMount(() => {
-    generate()
-  })
 </script>
 
 <div class="tool">
@@ -134,7 +130,7 @@
         <line x1="16" y1="17" x2="8" y2="17"></line>
         <polyline points="10 9 9 9 8 9"></polyline>
       </svg>
-      <span>Lorem Ipsum Generator</span>
+      <h1 class="tool-title-text">Lorem Ipsum Generator</h1>
     </div>
     
     <div class="tool-actions">
@@ -268,6 +264,13 @@
     gap: var(--space-2);
     font-weight: var(--font-semibold);
     color: var(--text-primary);
+  }
+
+  .tool-title-text {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    margin: 0;
+    color: inherit;
   }
 
   .tool-icon {

@@ -2,12 +2,15 @@
   import { createEventDispatcher } from 'svelte'
   import { copyToClipboard } from '$lib/utils/clipboard'
   import Toast from './Toast.svelte'
+  import { Copy, Check } from 'lucide-svelte'
 
   export let text = ''
   export let disabled = false
+  /** @type {'sm' | 'md' | 'lg'} */
   export let size = 'md'
 
   const dispatch = createEventDispatcher()
+  /** @type {Toast | null} */
   let toast = null
   let copied = false
 
@@ -17,7 +20,14 @@
     lg: 40
   }
 
+  const iconSizes = {
+    sm: 12,
+    md: 14,
+    lg: 18
+  }
+
   $: buttonSize = sizes[size] || sizes.md
+  $: iconSize = iconSizes[size] || iconSizes.md
 
   async function handleCopy() {
     if (!text || disabled) return
@@ -48,13 +58,12 @@
     style="--btn-size: {buttonSize}px"
   >
     <span class="icon-container">
-      <svg class="icon icon-copy" width={buttonSize * 0.45} height={buttonSize * 0.45} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-      </svg>
-      <svg class="icon icon-check" width={buttonSize * 0.45} height={buttonSize * 0.45} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="20 6 9 17 4 12"></polyline>
-      </svg>
+      <span class="icon icon-copy">
+        <Copy size={iconSize} />
+      </span>
+      <span class="icon icon-check">
+        <Check size={iconSize} />
+      </span>
     </span>
   </button>
 </div>
@@ -127,6 +136,9 @@
 
   .icon {
     position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: all var(--transition-fast);
   }
 

@@ -1,23 +1,6 @@
 import '@testing-library/jest-dom'
 
-// Mock window object for Svelte testing
-global.window = global.window || {}
-global.document = global.document || {}
-
-// Mock Svelte lifecycle functions that aren't available in test environment
-const originalMount = global.mount
-global.mount = (component, options) => {
-  try {
-    return originalMount?.(component, options)
-  } catch (error) {
-    console.warn('Mount failed:', error.message)
-    return { unmount: () => {} }
-  }
-}
-
-// Mock other Svelte lifecycle functions
-global.onMount = () => {}
-global.onDestroy = () => {}
-global.afterUpdate = () => {}
-global.beforeUpdate = () => {}
-global.tick = () => Promise.resolve()
+// Note: Svelte lifecycle functions should not be mocked globally.
+// They are imported from 'svelte' and should be properly handled by the test environment.
+// If tests fail due to lifecycle issues, consider using @testing-library/svelte helpers
+// or ensure proper component mounting in the test setup.

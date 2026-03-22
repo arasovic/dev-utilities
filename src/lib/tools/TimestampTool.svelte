@@ -66,7 +66,7 @@
     if (tz === 'Local') {
       return date.toLocaleString()
     }
-    return new Intl.DateTimeFormat('en-US', {
+    return new Intl.DateTimeFormat(undefined, {
       timeZone: tz,
       year: 'numeric',
       month: '2-digit',
@@ -190,7 +190,7 @@
         <circle cx="12" cy="12" r="10"></circle>
         <polyline points="12 6 12 12 16 14"></polyline>
       </svg>
-      <span>Timestamp Converter</span>
+      <h1 class="tool-title-text">Timestamp Converter</h1>
     </div>
     
     <div class="tool-actions">
@@ -352,6 +352,13 @@
     gap: var(--space-2);
     font-weight: var(--font-semibold);
     color: var(--text-primary);
+  }
+
+  .tool-title-text {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    margin: 0;
+    color: inherit;
   }
 
   .tool-icon {

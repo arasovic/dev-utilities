@@ -1,42 +1,49 @@
 <script>
-  import Sidebar from './Sidebar.svelte'
-
-  export let currentTool = 'json'
-  export let title = ''
+  import { page } from '$app/stores'
+  import Sidebar from '$lib/components/Sidebar.svelte'
+  import { toolTitles } from '$lib/config/tools.js'
+  import { Menu } from 'lucide-svelte'
+  import '../app.css'
 
   let sidebarOpen = false
 
   function toggleSidebar() {
     sidebarOpen = !sidebarOpen
   }
+
+  $: currentPath = $page.url.pathname.slice(1) || ''
+  $: title = toolTitles[currentPath] || 'DevUtils'
+  $: isHomePage = $page.url.pathname === '/'
 </script>
 
 <svelte:window on:keydown={(e) => {
-  if (e.ctrlKey && e.key === 'k') {
+  // Ctrl+K / Cmd+K toggles sidebar on tool pages
+  // Note: On homepage, this shortcut focuses the search input instead (handled in +page.svelte)
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
     e.preventDefault()
     toggleSidebar()
   }
 }} />
 
-<div class="layout">
-  <Sidebar {currentTool} bind:isOpen={sidebarOpen} />
+<div class="layout" class:home-layout={isHomePage}>
+  {#if !isHomePage}
+    <Sidebar bind:isOpen={sidebarOpen} />
+  {/if}
 
-  <div class="main">
-    <header class="header">
-      <button class="menu-btn" on:click={toggleSidebar} aria-label="Toggle menu">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-          <line x1="4" y1="6" x2="20" y2="6"></line>
-          <line x1="4" y1="12" x2="20" y2="12"></line>
-          <line x1="4" y1="18" x2="20" y2="18"></line>
-        </svg>
-      </button>
-      <h1 class="page-title">{title}</h1>
-      <div class="header-actions">
-        <kbd class="kbd">⌘K</kbd>
-      </div>
-    </header>
+  <div class="main" class:home-main={isHomePage}>
+    {#if !isHomePage}
+      <header class="header">
+        <button class="menu-btn" on:click={toggleSidebar} aria-label="Toggle menu">
+          <Menu size={20} class="menu-icon" />
+        </button>
+        <span class="page-title">{title}</span>
+        <div class="header-actions">
+          <kbd class="kbd">Ctrl+K / ⌘K</kbd>
+        </div>
+      </header>
+    {/if}
 
-    <main class="content">
+    <main class="content" class:home-content={isHomePage}>
       <slot />
     </main>
   </div>
@@ -55,6 +62,32 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+  }
+
+  .main.home-main {
+    margin-left: 0;
+  }
+
+  .content.home-content {
+    padding: 0;
+  }
+
+  @media (min-width: 768px) {
+    .main {
+      margin-left: var(--sidebar-width);
+    }
+
+    .main.home-main {
+      margin-left: 0;
+    }
+
+    .content {
+      padding: var(--space-5);
+    }
+
+    .header {
+      padding: var(--space-3) var(--space-5);
+    }
   }
 
   .header {
@@ -135,20 +168,6 @@
 
     .kbd {
       display: none;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .main {
-      margin-left: var(--sidebar-width);
-    }
-
-    .header {
-      padding: var(--space-3) var(--space-5);
-    }
-
-    .content {
-      padding: var(--space-5);
     }
   }
 </style>

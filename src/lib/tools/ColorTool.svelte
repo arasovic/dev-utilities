@@ -187,7 +187,7 @@
         <path d="M15 12h.01"></path>
         <path d="M18 15h.01"></path>
       </svg>
-      <span>Color Converter</span>
+      <h1 class="tool-title-text">Color Converter</h1>
     </div>
     
     <div class="tool-actions">
@@ -312,6 +312,13 @@
     color: var(--text-primary);
   }
 
+  .tool-title-text {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    margin: 0;
+    color: inherit;
+  }
+
   .tool-icon {
     width: 18px;
     height: 18px;
@@ -358,27 +365,25 @@
                       linear-gradient(-45deg, transparent 75%, #808080 75%);
     background-size: 16px 16px;
     background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+    border: 3px solid transparent;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    background-clip: padding-box;
   }
 
-  .swatch-overlay {
+  .color-swatch::after {
+    content: '';
     position: absolute;
     inset: 0;
-    background: inherit;
-    border: 3px solid transparent;
-    border-radius: 0;
-    background-clip: padding-box;
-    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    background: linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
-                linear-gradient(135deg, var(--accent), var(--accent-secondary)) border-box;
+    border: 3px solid var(--border-subtle);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    pointer-events: none;
   }
 
   .color-swatch::before {
     content: '';
     position: absolute;
     inset: 3px;
-    background: var(--color-swatch-bg, inherit);
+    background: inherit;
     border-radius: var(--radius-sm);
   }
 

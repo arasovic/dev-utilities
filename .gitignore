@@ -1,3 +1,22 @@
 node_modules
-dist
+
+# SvelteKit build output
+build
+.svelte-kit
+
+# IDE
 .DS_Store
+.vscode
+.idea
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Testing
+coverage

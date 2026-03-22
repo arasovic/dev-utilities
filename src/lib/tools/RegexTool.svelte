@@ -64,9 +64,12 @@
   })
 
   function escapeHtml(text) {
-    const div = document.createElement('div')
-    div.textContent = text
-    return div.innerHTML
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;')
   }
 
   function performMatch() {
@@ -91,7 +94,7 @@
           matches = [match]
         }
       } else {
-        matches = [...input.matchAll(regex)]
+        matches = Array.from(input.matchAll(regex))
       }
 
       let highlighted = ''
@@ -161,14 +164,14 @@
         <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
         <path d="m15 5 4 4"></path>
       </svg>
-      <span>Regex Tester</span>
+      <h1 class="tool-title-text">Regex Tester</h1>
     </div>
     
     <div class="tool-actions">
       <button class="btn-ghost" on:click={loadExample} title="Load Example">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-          <path d="M12 6v6l4 2"/>
           <circle cx="12" cy="12" r="10"/>
+          <path d="M12 6v6l4 2" fill="none"/>
         </svg>
       </button>
       <button class="btn-ghost" on:click={clear} title="Clear">
@@ -329,6 +332,13 @@
     gap: var(--space-2);
     font-weight: var(--font-semibold);
     color: var(--text-primary);
+  }
+
+  .tool-title-text {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    margin: 0;
+    color: inherit;
   }
 
   .tool-icon {

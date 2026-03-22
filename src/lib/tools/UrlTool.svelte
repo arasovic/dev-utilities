@@ -139,7 +139,7 @@
         <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
         <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
       </svg>
-      <span>URL Encoder/Decoder</span>
+      <h1 class="tool-title-text">URL Encoder/Decoder</h1>
     </div>
     
     <div class="tool-actions">
@@ -259,9 +259,7 @@
           <span>{error}</span>
         </div>
       {:else if output}
-        <div class="output-content" contenteditable="true" readonly>
-          {output}
-        </div>
+        <div class="output-content mono">{output}</div>
       {:else}
         <div class="empty-state">
           <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -315,6 +313,13 @@
     gap: var(--space-2);
     font-weight: var(--font-semibold);
     color: var(--text-primary);
+  }
+
+  .tool-title-text {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    margin: 0;
+    color: inherit;
   }
 
   .tool-icon {

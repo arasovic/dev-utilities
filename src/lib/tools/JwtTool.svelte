@@ -92,7 +92,7 @@
         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
         <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
       </svg>
-      <span>JWT Decoder</span>
+      <h1 class="tool-title-text">JWT Decoder</h1>
     </div>
     
     <div class="tool-actions">
@@ -167,10 +167,18 @@
           <span class="panel-title">
             <span class="part-label">Signature</span>
           </span>
-          <span class="badge badge-warning">Not Verified</span>
+          <span class="badge badge-warning" title="Signature verification requires the secret key and is not performed by this decoder">Not Verified</span>
         </div>
         <div class="signature-content">
           <code class="signature-text">{decoded.signature}</code>
+          <p class="signature-note">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            Signature verification requires the secret key. This tool only decodes the payload.
+          </p>
         </div>
       </div>
     </div>
@@ -229,6 +237,13 @@
     gap: var(--space-2);
     font-weight: var(--font-semibold);
     color: var(--text-primary);
+  }
+
+  .tool-title-text {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    margin: 0;
+    color: inherit;
   }
 
   .tool-icon {
@@ -395,6 +410,22 @@
     color: var(--text-tertiary);
     word-break: break-all;
     letter-spacing: 0.02em;
+  }
+
+  .signature-note {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--border-subtle);
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+  }
+
+  .signature-note svg {
+    flex-shrink: 0;
+    color: var(--warning);
   }
 
   .info-bar {

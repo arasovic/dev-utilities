@@ -1,63 +1,80 @@
 <script>
+  import { page } from '$app/stores'
   import { theme } from '$lib/stores/theme'
+  import { browser } from '$app/environment'
   import { onMount } from 'svelte'
+  import {
+    Braces,
+    Code,
+    Binary,
+    Link,
+    Fingerprint,
+    Hash,
+    KeyRound,
+    Palette,
+    Clock,
+    ScanSearch,
+    FileText,
+    Sun,
+    Moon
+  } from 'lucide-svelte'
 
-  export let currentTool = 'json'
   export let isOpen = false
 
   const tools = [
-    { id: 'json', label: 'JSON' },
-    { id: 'base64', label: 'Base64' },
-    { id: 'url', label: 'URL' },
-    { id: 'uuid', label: 'UUID' },
-    { id: 'hash', label: 'Hash' },
-    { id: 'jwt', label: 'JWT' },
-    { id: 'color', label: 'Color' },
-    { id: 'timestamp', label: 'Timestamp' },
-    { id: 'regex', label: 'Regex' },
-    { id: 'lorem', label: 'Lorem' }
+    { id: 'json', label: 'JSON', icon: Code },
+    { id: 'base64', label: 'Base64', icon: Binary },
+    { id: 'url', label: 'URL', icon: Link },
+    { id: 'uuid', label: 'UUID', icon: Fingerprint },
+    { id: 'hash', label: 'Hash', icon: Hash },
+    { id: 'jwt', label: 'JWT', icon: KeyRound },
+    { id: 'color', label: 'Color', icon: Palette },
+    { id: 'timestamp', label: 'Timestamp', icon: Clock },
+    { id: 'regex', label: 'Regex', icon: ScanSearch },
+    { id: 'lorem', label: 'Lorem', icon: FileText }
   ]
 
   function setTheme() {
-    document.documentElement.setAttribute('data-theme', $theme)
+    if (browser) {
+      document.documentElement.setAttribute('data-theme', $theme)
+    }
   }
 
   onMount(() => {
     setTheme()
   })
 
-  $: if ($theme !== undefined) {
+  $: if ($theme !== undefined && browser) {
     setTheme()
   }
 
   function closeDrawer() {
     isOpen = false
   }
+
+  $: currentTool = $page.url.pathname.slice(1) || 'json'
 </script>
+
+<svelte:window on:keydown={(e) => {
+  if (e.key === 'Escape' && isOpen) {
+    closeDrawer()
+  }
+}} />
 
 <aside class="sidebar" class:open={isOpen}>
   <div class="sidebar-header">
-    <a href="#json" class="logo" on:click={closeDrawer}>
+    <a href="/json" class="logo" on:click={closeDrawer}>
       <div class="logo-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <path d="M13 3L4 14h7l-2 7 9-11h-7l2-7z" fill="currentColor"/>
-        </svg>
+        <Braces size={18} />
       </div>
       <span class="logo-title">DevUtils</span>
     </a>
     <button class="theme-toggle" on:click={theme.toggle} aria-label="Toggle theme">
-      <span class="theme-icon" class:dark={$theme === 'dark'}>
-        {#if $theme === 'dark'}
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="4"></circle>
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-          </svg>
-        {:else}
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-        {/if}
-      </span>
+      {#if $theme === 'dark'}
+        <Sun size={18} />
+      {:else}
+        <Moon size={18} />
+      {/if}
     </button>
   </div>
 
@@ -66,13 +83,18 @@
       <span class="nav-label">Tools</span>
       {#each tools as tool, i}
         <a
-          href="#{tool.id}"
+          href="/{tool.id}"
           class="nav-item"
           class:active={currentTool === tool.id}
           on:click={closeDrawer}
           style="--delay: {i * 20}ms"
         >
-          <span class="nav-item-text">{tool.label}</span>
+          <div class="nav-item-content">
+            <span class="nav-item-icon">
+              <svelte:component this={tool.icon} size={18} />
+            </span>
+            <span class="nav-item-text">{tool.label}</span>
+          </div>
           {#if currentTool === tool.id}
             <span class="nav-item-indicator"></span>
           {/if}
@@ -182,17 +204,6 @@
     color: var(--text-primary);
   }
 
-  .theme-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform var(--transition);
-  }
-
-  .theme-icon.dark {
-    transform: rotate(180deg);
-  }
-
   .sidebar-nav {
     flex: 1;
     padding: var(--space-2);
@@ -255,6 +266,18 @@
 
   .nav-item.active:hover {
     background: var(--accent-dim);
+  }
+
+  .nav-item-content {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .nav-item-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .nav-item-text {

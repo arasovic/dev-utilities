@@ -46,6 +46,23 @@
     if (input) process()
   })
 
+  function utf8ToBase64(str) {
+    const encoder = new TextEncoder()
+    const bytes = encoder.encode(str)
+    const binString = Array.from(bytes, (byte) => String.fromCharCode(byte)).join('')
+    return btoa(binString)
+  }
+
+  function base64ToUtf8(str) {
+    const binString = atob(str)
+    const bytes = new Uint8Array(binString.length)
+    for (let i = 0; i < binString.length; i++) {
+      bytes[i] = binString.charCodeAt(i)
+    }
+    const decoder = new TextDecoder('utf-8')
+    return decoder.decode(bytes)
+  }
+
   function process() {
     error = ''
     output = ''
@@ -56,10 +73,9 @@
 
     try {
       if (mode === 'encode') {
-        output = btoa(unescape(encodeURIComponent(input)))
+        output = utf8ToBase64(input)
       } else {
-        const decoded = decodeURIComponent(escape(atob(input)))
-        output = decoded
+        output = base64ToUtf8(input)
       }
     } catch (e) {
       error = 'Invalid input for Base64 ' + mode
@@ -103,7 +119,7 @@
 <div class="tool">
   <div class="tool-header">
     <div class="tool-meta">
-      <h2 class="tool-name">Base64 Encoder</h2>
+      <h1 class="tool-name">Base64 Encoder</h1>
       <p class="tool-desc">Encode and decode Base64 strings</p>
     </div>
     <div class="tool-actions">
@@ -240,6 +256,7 @@
     font-weight: var(--font-semibold);
     color: var(--text-primary);
     letter-spacing: var(--tracking-tight);
+    margin: 0;
   }
 
   .tool-desc {

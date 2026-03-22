@@ -86,10 +86,6 @@
       generate()
     }
   }
-
-  onMount(() => {
-    generate()
-  })
 </script>
 
 <div class="tool">
@@ -100,7 +96,7 @@
         <line x1="3" y1="9" x2="21" y2="9"></line>
         <line x1="9" y1="21" x2="9" y2="9"></line>
       </svg>
-      <span>UUID Generator</span>
+      <h1 class="tool-title-text">UUID Generator</h1>
     </div>
     
     <div class="tool-actions">
@@ -231,6 +227,13 @@
     gap: var(--space-2);
     font-weight: var(--font-semibold);
     color: var(--text-primary);
+  }
+
+  .tool-title-text {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    margin: 0;
+    color: inherit;
   }
 
   .tool-icon {

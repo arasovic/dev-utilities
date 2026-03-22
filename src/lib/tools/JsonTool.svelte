@@ -9,6 +9,8 @@
   "active": true
 }`
 
+const PLACEHOLDER_TEXT = '{"name": "Example", "version": "1.0.0"}'
+
   let input = ''
   let output = ''
   let error = ''
@@ -117,7 +119,7 @@
 <div class="tool">
   <div class="tool-header">
     <div class="tool-meta">
-      <h2 class="tool-name">JSON Formatter</h2>
+      <h1 class="tool-name">JSON Formatter</h1>
       <p class="tool-desc">Format, validate, and minify JSON data</p>
     </div>
     <div class="tool-actions">
@@ -160,7 +162,7 @@
       <textarea
         bind:value={input}
         on:input={debouncedProcess}
-        placeholder={`{"name": "Example", "version": "1.0.0"}`}
+        placeholder={PLACEHOLDER_TEXT}
         class="editor-textarea"
         spellcheck="false"
       ></textarea>
@@ -227,6 +229,7 @@
     font-weight: var(--font-semibold);
     color: var(--text-primary);
     letter-spacing: var(--tracking-tight);
+    margin: 0;
   }
 
   .tool-desc {
